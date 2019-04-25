@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>收藏排行榜</title>
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/ranking-list.css">
+    <script src="js/jquery-3.3.1.js"></script>
+    <script>
+        function favoriterankByPage(currentPage) {
+            var routeName = $("#routeName").val();
+            var startPrice = $("#startPrice").val();
+            var endPrice = $("#endPrice").val();
+            $.ajax({
+                url: "favoriteServlet?methodName=favoriterankByPage",
+                data: {
+                    "currentPage": currentPage,
+                    "routeName": routeName,
+                    "startPrice": startPrice,
+                    "endPrice": endPrice
+                },
+                dataType: "json",
+                success: function (res) {
+                    if (res.message == "noLogin") {
+                        window.location.href = "login.html";
+                    } else {
+                        $("#favoriterank").empty();
+                        var rank;
+                        for (var i = 0; i < res.routeList.length; i++) {
+                            rank = (res.currentPage - 1) * (res.pageSize) + i + 1
+                            var $li = $("<li>\n" +
+                                "                        <span class=\"num one\">"+rank+"</span>\n" +
+                                "                        <a href=\"route_detail.html\"><img src=\"" + res.routeList[i].rimage + "\" alt=\"\"></a>\n" +
+                                "                        <h4><a href=\"route_detail.html\">" + res.routeList[i].rname + "</a></h4>\n" +
+                                "                        <p>\n" +
+                                "                            <b class=\"price\">&yen;<span>" + res.routeList[i].price + "</span>起</b>\n" +
+                                "                            <span class=\"shouchang\">已收藏" + res.routeList[i].count + "次</span>\n" +
+                                "                        </p>\n" +
+                                "                    </li>")
+                            rank++;
+                            $("#favoriterank").append($li);
+                        }
+
+                        //清空所有分页数据
+                        $("#pageTool").empty();
+                        if (res.currentPage == 1) {
+                            //首页
+                            var $firstPage = $("<li><a disabled='disabled' style=\"opacity: 0.2\">首页</a></li>")
+                            $("#pageTool").append($firstPage);
+                            //上一页
+                            var $prePage = $("<li class=\"threeword\"><a disabled='disabled' style=\"opacity: 0.2\" >上一页</a></li>")
+                            $("#pageTool").append($prePage);
+
+                        } else {
+                            //首页
+                            var $firstPage = $("<li><a href=\"#\" onclick='favoriterankByPage(1)'>首页</a></li>")
+                            $("#pageTool").append($firstPage);
+                            //上一页
+                            var $prePage = $("<li class=\"threeword\"><a href=\"#\" onclick='favoriterankByPage(" + res.prePage + ")'>上一页</a></li>")
+                            $("#pageTool").append($prePage);
+                        }
+
+
+                        //数字的页码数
+                        var begin = 1;
+                        var end = res.totalPage;
+                        if (end > 10) {
+                            begin = res.currentPage - 5;
+                            end = res.currentPage + 4
+                            if (begin < 1) {
+                                begin = 1;
+                                end = 10;
+                            }
+                            if (end > res.totalPage) {
+                                begin = res.totalPage - 9;
+                                end = res.totalPage;
+                            }
+                        }
+                        var $li = "";
+                        for (var i = begin; i <= end; i++) {
+                            var $li = $("<li><a href=\"#\" onclick='favoriterankByPage(" + i + ")'>" + i + "</a></li>");
+                            if (i == res.currentPage) {
+                                var $li = $("<li><a disabled='disabled' style=\"opacity: 0.2\">" + i + "</a></li>");
+                            }
+                            $("#pageTool").append($li);
+                        }
+
+                        if (res.currentPage == res.totalPage) {
+                            //下一页
+                            var $nextPage = $("<li class=\"threeword\"><a disabled='disabled' style=\"opacity: 0.2\" >下一页</a></li>")
+                            $("#pageTool").append($nextPage);
+                            //末页
+                            var $endPage = $("<li><a disabled='disabled' style=\"opacity: 0.2\">末页</a></li>")
+                            $("#pageTool").append($endPage);
+
+                        } else {
+                            //下一页
+                            var $nextPage = $("<li class=\"threeword\"><a href=\"#\" onclick='favoriterankByPage(" + res.nextPage + ")'>下一页</a></li>")
+                            $("#pageTool").append($nextPage);
+                            //末页
+                            var $endPage = $("<li><a href=\"#\" onclick='favoriterankByPage("+res.totalPage+")'>末页</a></li>")
+                            $("#pageTool").append($endPage);
+                        }
+                    }
+                }
+            });
+        }
+        favoriterankByPage(1);
+    </script>
+</head>
+<body>
+<!--引入头部-->
+<div id="header"></div>
+<div class="contant">
+    <div class="shaixuan">
+        <span>线路名称</span>
+        <input type="text" id="routeName">
+        <span>金额</span>
+        <input type="text" id="startPrice">~<input type="text" id="endPrice">
+        <button onclick="favoriterankByPage(1)">搜索</button>
+    </div>
+    <div class="list clearfix">
+        <ul id="favoriterank">
+
+            <!--<li>
+                <span class="num two">2</span>
+                 <a href="route_detail.html"><img src="images/jiangxuan_4.jpg" alt=""></a>
+                <h4><a href="route_detail.html">【尾单特卖】全国-曼谷6-7天自由行 泰国出境旅游 特价往6-7天自由行 泰国出境旅游 特价往..</a></h4>
+                <p>
+                    <b class="price">&yen;<span>899</span>起</b>
+                    <span class="shouchang">已收藏450次</span>
+                </p>
+            </li>-->
+        </ul>
+    </div>
+    <div class="pageNum">
+        <ul id="pageTool">
+
+        </ul>
+    </div>
+</div>
+
+<!--导入底部-->
+<div id="footer"></div>
+<!--导入布局js，共享header和footer-->
+<script type="text/javascript" src="js/include.js"></script>
+</body>
+</html>

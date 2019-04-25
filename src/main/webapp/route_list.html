@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>黑马旅游-搜索</title>
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" href="css/search.css">
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/getParameter.js"></script>
+    <script>
+        var cid = getParameter("cid");
+
+        function findRouteByPage(currentPage) {
+            //获取搜索框内的值
+            var searchValue = $("#search").val();
+            $.ajax({
+                url: "/routeServlet?methodName=findRouteByPage",
+                data: {"cid": cid, "currentPage": currentPage,"searchValue":searchValue},
+                dataType: "json",
+                success: function (res) {
+                    /**
+                     *      {
+                     *          currentPage:v,
+                     *          prePage:v,
+                     *          nextPage:v,
+                     *          pageSize:v,
+                     *          totalPage:v,
+                     *          totalCount:v,
+                     *          routeList:[
+                     *              {rid:v,rname:v.....}
+                     *          ]
+                     *      }
+                     */
+                    //分页页面需要的旅游线路信息的展示
+                    $("#route").empty();
+                    for (var i = 0; i < res.routeList.length; i++) {
+                        var $li = "<li>\n" +
+                            "                            <div class=\"img\"><img width='299px' src=\"" + res.routeList[i].rimage + "\" alt=\"\"></div>\n" +
+                            "                            <div class=\"text1\">\n" +
+                            "                                <p>" + res.routeList[i].rname + "</p>\n" +
+                            "                                <br/>\n" +
+                            "                                <p>" + res.routeList[i].routeIntroduce + "</p>\n" +
+                            "                            </div>\n" +
+                            "                            <div class=\"price\">\n" +
+                            "                                <p class=\"price_num\">\n" +
+                            "                                    <span>&yen;</span>\n" +
+                            "                                    <span>" + res.routeList[i].price + "</span>\n" +
+                            "                                    <span>起</span>\n" +
+                            "                                </p>\n" +
+                            "                                <p><a href=\"route_detail.html?rid=" + res.routeList[i].rid + "\">查看详情</a></p>\n" +
+                            "                            </div>\n" +
+                            "                        </li>"
+                        $("#route").append($li);
+                    }
+                    //总页码和总数量
+
+                    $("#totalPage").html(res.totalPage);
+                    $("#totalCount").html(res.totalCount);
+
+                    //清空所有分页数据
+                    $("#pageTool").empty();
+                    if (res.currentPage == 1) {
+                        //首页
+                        var $firstPage = $("<li><a disabled='disabled' style=\"opacity: 0.2\">首页</a></li>")
+                        $("#pageTool").append($firstPage);
+                        //上一页
+                        var $prePage = $("<li class=\"threeword\"><a disabled='disabled' style=\"opacity: 0.2\" >上一页</a></li>")
+                        $("#pageTool").append($prePage);
+
+                    } else {
+                        //首页
+                        var $firstPage = $("<li><a href=\"#\" onclick='findRouteByPage(1)'>首页</a></li>")
+                        $("#pageTool").append($firstPage);
+                        //上一页
+                        var $prePage = $("<li class=\"threeword\"><a href=\"#\" onclick='findRouteByPage(" + res.prePage + ")'>上一页</a></li>")
+                        $("#pageTool").append($prePage);
+                    }
+
+
+                    //数字的页码数
+                    var begin = 1;
+                    var end = res.totalPage;
+                    if (end > 10) {
+                        begin = res.currentPage - 5;
+                        end = res.currentPage + 4
+                        if (begin < 1) {
+                            begin = 1;
+                            end = 10;
+                        }
+                        if (end > res.totalPage) {
+                            begin = res.totalPage - 9;
+                            end = res.totalPage;
+                        }
+                    }
+                    var $li = "";
+                    for (var i = begin; i <= end; i++) {
+                        var $li = $("<li><a href=\"#\" onclick='findRouteByPage(" + i + ")'>" + i + "</a></li>");
+                        if (i == res.currentPage) {
+                            var $li = $("<li><a disabled='disabled' style=\"opacity: 0.2\">" + i + "</a></li>");
+                        }
+                        $("#pageTool").append($li);
+                    }
+
+                    if (res.currentPage == res.totalPage) {
+                        //下一页
+                        var $nextPage = $("<li class=\"threeword\"><a disabled='disabled' style=\"opacity: 0.2\" >下一页</a></li>")
+                        $("#pageTool").append($nextPage);
+                        //末页
+                        var $endPage = $("<li><a disabled='disabled' style=\"opacity: 0.2\">末页</a></li>")
+                        $("#pageTool").append($endPage);
+
+                    } else {
+                        //下一页
+                        var $nextPage = $("<li class=\"threeword\"><a href=\"#\" onclick='findRouteByPage(" + res.nextPage + ")'>下一页</a></li>")
+                        $("#pageTool").append($nextPage);
+                        //末页
+                        var $endPage = $("<li><a href=\"#\" onclick='findRouteByPage("+res.totalPage+")'>末页</a></li>")
+                        $("#pageTool").append($endPage);
+                    }
+                }
+            })
+        }
+
+        findRouteByPage(1);
+    </script>
+</head>
+<body>
+<!--引入头部-->
+<div id="header"></div>
+<div class="page_one">
+    <div class="contant">
+        <div class="crumbs">
+            <img src="images/search.png" alt="">
+            <p>黑马旅行><span>搜索结果</span></p>
+        </div>
+        <div class="xinxi clearfix">
+            <div class="left">
+                <div class="header">
+                    <span>商品信息</span>
+                    <span class="jg">价格</span>
+                </div>
+                <ul id="route">
+
+                </ul>
+                <div class="page_num_inf">
+                    <i></i> 共
+                    <span id="totalPage"></span>页<span id="totalCount"></span>条
+                </div>
+                <div class="pageNum">
+                    <ul id="pageTool">
+
+                    </ul>
+                </div>
+            </div>
+            <div class="right">
+                <div class="top">
+                    <div class="hot">HOT</div>
+                    <span>热门推荐</span>
+                </div>
+                <ul>
+                    <li>
+                        <div class="left"><img src="images/04-search_09.jpg" alt=""></div>
+                        <div class="right">
+                            <p>清远新银盏温泉度假村酒店/自由行套...</p>
+                            <p>网付价<span>&yen;<span>899</span>起</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="left"><img src="images/04-search_09.jpg" alt=""></div>
+                        <div class="right">
+                            <p>清远新银盏温泉度假村酒店/自由行套...</p>
+                            <p>网付价<span>&yen;<span>899</span>起</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="left"><img src="images/04-search_09.jpg" alt=""></div>
+                        <div class="right">
+                            <p>清远新银盏温泉度假村酒店/自由行套...</p>
+                            <p>网付价<span>&yen;<span>899</span>起</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="left"><img src="images/04-search_09.jpg" alt=""></div>
+                        <div class="right">
+                            <p>清远新银盏温泉度假村酒店/自由行套...</p>
+                            <p>网付价<span>&yen;<span>899</span>起</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="left"><img src="images/04-search_09.jpg" alt=""></div>
+                        <div class="right">
+                            <p>清远新银盏温泉度假村酒店/自由行套...</p>
+                            <p>网付价<span>&yen;<span>899</span>起</span>
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--引入头部-->
+<div id="footer"></div>
+<!--导入布局js，共享header和footer-->
+<script type="text/javascript" src="js/include.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>黑马旅游网-我的收藏</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        .tab-content .row > div {
+            margin-top: 16px;
+        }
+
+        .tab-content {
+            margin-bottom: 36px;
+        }
+    </style>
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/getParameter.js"></script>
+    <script>
+
+        $(function () {
+            var currentPage = getParameter("currentPage");
+            if (currentPage == null) {
+                currentPage = 1;
+            }
+            $.ajax({
+                url: "favoriteServlet?methodName=findMyFavoriteRouteByPage",
+                data: {"currentPage": currentPage},
+                dataType: "json",
+                success: function (res) {
+                    /**
+                     *      返回值，分页bean转换成的json
+                     *      {
+                     *          totalPage:value,
+                     *          nextPage:value,
+                     *          currentPage:value,
+                     *          routeList:[
+                     *              {rid:value1,rname:value2},
+                     *              {rid:value1,rname:value2},
+                     *              {rid:value1,rname:value2},
+                     *          ]
+                     *      }
+                     *
+                     */
+                    if (res.message == "noLogin") {
+                        window.location.href = "login.html";
+                    } else {
+                        $("#favoriteRoute").empty();
+                        for (var i = 0; i < res.routeList.length; i++) {
+                            var $div = $("<div class=\"col-md-3\">\n" +
+                                "                                    <a href=\"route_detail.html\">\n" +
+                                "                                        <img src=\"" + res.routeList[i].rimage + "\" alt=\"\">\n" +
+                                "                                        <div class=\"has_border\">\n" +
+                                "                                            <h3>" + res.routeList[i].rname + "</h3>\n" +
+                                "                                            <div class=\"price\">网付价<em>￥</em><strong>" + res.routeList[i].price + "</strong><em>起</em></div>\n" +
+                                "                                        </div>\n" +
+                                "                                    </a>\n" +
+                                "                                </div>")
+                            $("#favoriteRoute").append($div);
+                        }
+                        $("#pageTool").empty();
+                        if (res.currentPage == 1) {
+                            //首页
+                            var $firstPage = $("<li><a disabled='disabled' style=\"opacity: 0.2\">首页</a></li>");
+                            $("#pageTool").append($firstPage);
+                            //上一页
+                            var $prePage = $("<li class=\"threeword\"><a disabled='disabled' style=\"opacity: 0.2\">上一页</a></li>")
+                            $("#pageTool").append($prePage);
+                        } else {
+                            var $firstPage = $("<li><a href=\"myfavorite.html?currentPage=1\">首页</a></li>");
+                            $("#pageTool").append($firstPage);
+                            var $prePage = $("<li class=\"threeword\"><a href=\"myfavorite.html?currentPage=" + res.prePage + "\">上一页</a></li>")
+                            $("#pageTool").append($prePage);
+                        }
+                        //页码
+                        var begin = 1;
+                        var end = res.totalPage;
+                        if (end > 10) {
+                            begin = res.currentPage - 5;
+                            end = res.currentPage + 4;
+                            if (begin < 1) {
+                                begin = 1;
+                                end = 10;
+                            }
+                            if (end > res.totalPage) {
+                            }
+                            begin = res.totalPage - 9;
+                            end = res.totalPage;
+                        }
+                        for (var i = begin; i <= end; i++) {
+                            if (res.currentPage == i){
+                                var $currentPage = $("<li><a disabled='disabled' style=\"opacity: 0.2\">" + i + "</a></li>")
+                            }else {
+                                var $currentPage = $("<li><a href=\"myfavorite.html?currentPage="+i+"\">" + i + "</a></li>")
+                            }
+                            $("#pageTool").append($currentPage);
+                        }
+
+                        if (res.currentPage == res.totalPage) {
+                            //下一页
+                            var $nextPage = $("<li class=\"threeword\"><a disabled='disabled' style=\"opacity: 0.2\">下一页</a></li>")
+                            $("#pageTool").append($nextPage);
+                            //末页
+                            var $lastPage = $("<li><a disabled='disabled' style=\"opacity: 0.2\">末页</a></li>");
+                            $("#pageTool").append($lastPage);
+                        } else {
+                            var $nextPage = $("<li class=\"threeword\"><a href=\"myfavorite.html?currentPage=" + res.nextPage + "\">下一页</a></li>")
+                            $("#pageTool").append($nextPage);
+                            var $lastPage = $("<li><a href=\"myfavorite.html?currentPage="+res.totalPage
+                                +"\">末页</a></li>");
+                            $("#pageTool").append($lastPage);
+                        }
+                    }
+                }
+            })
+        })
+    </script>
+
+</head>
+<body>
+<!--引入头部-->
+<div id="header"></div>
+<!-- 排行榜 start-->
+<section id="content">
+    <section class="hemai_jx">
+        <div class="jx_top">
+            <div class="jx_tit">
+                <img src="images/icon_5.jpg" alt="">
+                <span>我的收藏</span>
+            </div>
+        </div>
+        <div class="jx_content">
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    <div class="row" id="favoriteRoute">
+
+                        <!--<div class="col-md-3">
+                            <a href="jroute_detail.html">
+                                <img src="images/collection_pic.jpg" alt="">
+                                <div class="has_border">
+                                    <h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
+                                    <div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>
+                                </div>
+                            </a>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pageNum">
+            <ul id="pageTool">
+
+
+            </ul>
+        </div>
+    </section>
+</section>
+<!-- 排行榜 end-->
+
+<!--引入尾部-->
+<div id="footer"></div>
+<!--导入布局js，共享header和footer-->
+<script type="text/javascript" src="js/include.js"></script>
+</body>
+</html>
