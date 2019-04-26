@@ -43,7 +43,7 @@
     //获取的用户状态
     $(function () {
         $.ajax({
-            url: "/userServlet?methodName=findCurrentUser",
+            url: "/user/findCurrentUser",
             dataType: "json",
             success: function (res) {
                 if (res.message == "nologin") {

@@ -130,14 +130,14 @@
         var regExp = new RegExp("^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\\d{8}$");
         if (regExp.test(telephone)) {
             $.ajax({
-                url: "/userServlet?methodName=validatePhone",
+                url: "/user/validatePhone",
                 data: {"telephone": telephone},
                 async: false,
                 dataType: "json",
                 success: function (res) {
-                    if (res.isExist == "yes") {
+                    if (res.message == "yes") {
                         $("#phoneSpan").html("手机号已被注册").css({"color": "red", "font-size": "75%"});
-                    } else if (res.isExist == "no") {
+                    } else if (res.message == "no") {
                         $("#phoneSpan").html("√").css("color", "green");
                         flag = true;
                     }
@@ -149,16 +149,16 @@
         return flag;
     }
 
-    //用户名是都注册检测
+    //用户名是否注册检测
     function validateUsername(username) {
         $.ajax({
-            url: "/userServlet?methodName=validateUsername",
+            url: "/user/validateUsername",
             data: {"username": username},
             dataType: "json",
             success: function (res) {
-                if (res.isExist == "yes") {
+                if (res.message == "yes") {
                     $("#usernameSpan").html("用户名已被注册").css({"color": "red", "font-size": "75%"});
-                } else if (res.isExist == "no") {
+                } else if (res.message == "no") {
                     $("#usernameSpan").html("√").css("color", "green");
                 }
             }
@@ -196,8 +196,9 @@
         var data = $("#registerForm").serialize();
         var telephone = $("#telephone").val();
         $.ajax({
-            url: "/userServlet?methodName=register",
+            url: "/user/register",
             data: data,
+            type: "POST",
             dataType: "json",
             success: function (res) {
                 if (res.message == "yes") {
