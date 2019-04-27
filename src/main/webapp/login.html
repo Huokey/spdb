@@ -39,7 +39,7 @@
         		<div id="errorMsg" class="alert alert-danger" ></div>
 				<form id="loginForm" action="" method="post" accept-charset="utf-8">
         			<input type="hidden" name="action" value="login"/>
-					<input name="username" type="text" placeholder="请输入手机号" autocomplete="off" id="phone">
+					<input name="telephone" type="text" placeholder="请输入手机号" autocomplete="off" id="phone">
         			<input name="password" type="text" placeholder="请输入密码" autocomplete="off">
 
 			<div class="submit_btn">
@@ -74,7 +74,7 @@
 	function login() {
 		var data = $("#loginForm").serialize();
 		$.ajax({
-			url:"/userServlet?methodName=login",
+			url:"/user/login",
 			data:data,
 			dataType:"json",
 			success:function (res) {
@@ -84,6 +84,8 @@
                     $("#errorMsg").html("输入的密码有误").css("color","red")
 				}else if (res.message == "success"){
 				    location.href = "index.html";
+				}else {
+					$("#msg").html(res.message);
 				}
             }
 		})

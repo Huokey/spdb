@@ -17,7 +17,7 @@
             //获取搜索框内的值
             var searchValue = $("#search").val();
             $.ajax({
-                url: "/routeServlet?methodName=findRouteByPage",
+                url: "/route/findRouteByPage",
                 data: {"cid": cid, "currentPage": currentPage,"searchValue":searchValue},
                 dataType: "json",
                 success: function (res) {
@@ -36,33 +36,33 @@
                      */
                     //分页页面需要的旅游线路信息的展示
                     $("#route").empty();
-                    for (var i = 0; i < res.routeList.length; i++) {
+                    for (var i = 0; i < (res.value).routeList.length; i++) {
                         var $li = "<li>\n" +
-                            "                            <div class=\"img\"><img width='299px' src=\"" + res.routeList[i].rimage + "\" alt=\"\"></div>\n" +
+                            "                            <div class=\"img\"><img width='299px' src=\"" + (res.value).routeList[i].rimage + "\" alt=\"\"></div>\n" +
                             "                            <div class=\"text1\">\n" +
-                            "                                <p>" + res.routeList[i].rname + "</p>\n" +
+                            "                                <p>" + (res.value).routeList[i].rname + "</p>\n" +
                             "                                <br/>\n" +
-                            "                                <p>" + res.routeList[i].routeIntroduce + "</p>\n" +
+                            "                                <p>" + (res.value).routeList[i].routeIntroduce + "</p>\n" +
                             "                            </div>\n" +
                             "                            <div class=\"price\">\n" +
                             "                                <p class=\"price_num\">\n" +
                             "                                    <span>&yen;</span>\n" +
-                            "                                    <span>" + res.routeList[i].price + "</span>\n" +
+                            "                                    <span>" + (res.value).routeList[i].price + "</span>\n" +
                             "                                    <span>起</span>\n" +
                             "                                </p>\n" +
-                            "                                <p><a href=\"route_detail.html?rid=" + res.routeList[i].rid + "\">查看详情</a></p>\n" +
+                            "                                <p><a href=\"route_detail.html?rid=" + (res.value).routeList[i].rid + "\">查看详情</a></p>\n" +
                             "                            </div>\n" +
                             "                        </li>"
                         $("#route").append($li);
                     }
                     //总页码和总数量
 
-                    $("#totalPage").html(res.totalPage);
-                    $("#totalCount").html(res.totalCount);
+                    $("#totalPage").html((res.value).totalPage);
+                    $("#totalCount").html((res.value).totalCount);
 
                     //清空所有分页数据
                     $("#pageTool").empty();
-                    if (res.currentPage == 1) {
+                    if ((res.value).currentPage == 1) {
                         //首页
                         var $firstPage = $("<li><a disabled='disabled' style=\"opacity: 0.2\">首页</a></li>")
                         $("#pageTool").append($firstPage);
@@ -82,29 +82,29 @@
 
                     //数字的页码数
                     var begin = 1;
-                    var end = res.totalPage;
+                    var end = (res.value).totalPage;
                     if (end > 10) {
-                        begin = res.currentPage - 5;
-                        end = res.currentPage + 4
+                        begin = (res.value).currentPage - 5;
+                        end = (res.value).currentPage + 4
                         if (begin < 1) {
                             begin = 1;
                             end = 10;
                         }
-                        if (end > res.totalPage) {
-                            begin = res.totalPage - 9;
-                            end = res.totalPage;
+                        if (end > (res.value).totalPage) {
+                            begin = (res.value).totalPage - 9;
+                            end = (res.value).totalPage;
                         }
                     }
                     var $li = "";
                     for (var i = begin; i <= end; i++) {
                         var $li = $("<li><a href=\"#\" onclick='findRouteByPage(" + i + ")'>" + i + "</a></li>");
-                        if (i == res.currentPage) {
+                        if (i == (res.value).currentPage) {
                             var $li = $("<li><a disabled='disabled' style=\"opacity: 0.2\">" + i + "</a></li>");
                         }
                         $("#pageTool").append($li);
                     }
 
-                    if (res.currentPage == res.totalPage) {
+                    if ((res.value).currentPage == (res.value).totalPage) {
                         //下一页
                         var $nextPage = $("<li class=\"threeword\"><a disabled='disabled' style=\"opacity: 0.2\" >下一页</a></li>")
                         $("#pageTool").append($nextPage);
@@ -114,10 +114,10 @@
 
                     } else {
                         //下一页
-                        var $nextPage = $("<li class=\"threeword\"><a href=\"#\" onclick='findRouteByPage(" + res.nextPage + ")'>下一页</a></li>")
+                        var $nextPage = $("<li class=\"threeword\"><a href=\"#\" onclick='findRouteByPage(" + (res.value).nextPage + ")'>下一页</a></li>")
                         $("#pageTool").append($nextPage);
                         //末页
-                        var $endPage = $("<li><a href=\"#\" onclick='findRouteByPage("+res.totalPage+")'>末页</a></li>")
+                        var $endPage = $("<li><a href=\"#\" onclick='findRouteByPage("+(res.value).totalPage+")'>末页</a></li>")
                         $("#pageTool").append($endPage);
                     }
                 }

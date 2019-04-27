@@ -1,12 +1,17 @@
 package com.szxy.spdb.service;
 
 import com.szxy.spdb.po.User;
+import com.szxy.spdb.po.WebResult;
+
+import javax.servlet.http.HttpServletRequest;
 
 public interface IUserService {
 
-    String register(User user);
+    WebResult register(User user);
 
-    String validatePhone(String telephone);
+    WebResult validatePhone(String telephone);
 
-    String validateUsername(String username);
+    WebResult validateUsername(String username);
+
+    WebResult login(String telephone, String password, HttpServletRequest request);
 }

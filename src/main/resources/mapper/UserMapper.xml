@@ -137,17 +137,4 @@
       email = #{email,jdbcType=VARCHAR}
     where uid = #{uid,jdbcType=INTEGER}
   </update>
-    <resultMap id="UserMap" type="com.szxy.spdb.po.User">
-        <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="username" jdbcType="VARCHAR" property="username" />
-
-        <result column="password" jdbcType="VARCHAR" property="password" />
-        <result column="type" jdbcType="VARCHAR" property="type" />
-    </resultMap>
-    <select id="getUserByname" parameterType="java.lang.String" resultMap="UserMap">
-        select * from users where username=#{username}
-    </select>
-    <insert id="addUser" parameterType="java.lang.String">
-        insert into users(name,password) values (#{0},#{1})
-    </insert>
 </mapper>

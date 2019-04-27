@@ -36,7 +36,7 @@
     <ul class="nav">
         <li class="nav-active"><a href="index.html" >首页</a></li>
 
-        <li id="categorys"><a href="favoriterank.html">收藏排行榜</a></li>
+        <li id="categories"><a href="favoriterank.html">收藏排行榜</a></li>
     </ul>
 </div>
 <script>
@@ -62,17 +62,17 @@
         })
 
         $.ajax({
-            url: "/categoryServlet?methodName=findAllCategorys",
+            url: "/brand/findAllBrands",
             dataType: "json",
             success: function (res) {
                 /**
                  * [
-                 *      {cid:v,cname:v}
+                 *      {bid:v,bname:v}
                  * ]
                  */
-                for (var i = 0; i < res.length; i++) {
-                    var $li = "<li><a href=\"route_list.html?cid="+res[i].cid+"\">"+ res[i].cname +"</a></li>";
-                    $("#categorys").before($li);
+                for (var i = 0; i < (res.value).length; i++) {
+                    var $li = "<li><a href=\"route_list.html?cid="+(res.value)[i].bid+"\">"+ (res.value)[i].bname +"</a></li>";
+                    $("#categories").before($li);
                 }
             }
         })
@@ -80,7 +80,7 @@
     //登出
     function loginOut() {
         $.ajax({
-            url: "/userServlet?methodName=loginOut",
+            url: "/user/loginOut",
             success: function () {
                 //刷新页面
                 window.location.reload();
