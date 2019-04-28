@@ -5,20 +5,20 @@
         <id column="rid" jdbcType="INTEGER" property="rid"/>
         <result column="rname" jdbcType="VARCHAR" property="rname"/>
         <result column="price" jdbcType="DOUBLE" property="price"/>
-        <result column="routeIntroduce" jdbcType="VARCHAR" property="routeintroduce"/>
+        <result column="route_introduce" jdbcType="VARCHAR" property="routeIntroduce"/>
         <result column="rflag" jdbcType="VARCHAR" property="rflag"/>
         <result column="rdate" jdbcType="VARCHAR" property="rdate"/>
-        <result column="isDiscount" jdbcType="VARCHAR" property="isdiscount"/>
+        <result column="isdiscount" jdbcType="VARCHAR" property="isdiscount"/>
         <result column="count" jdbcType="INTEGER" property="count"/>
         <result column="bid" jdbcType="INTEGER" property="bid"/>
         <result column="rimage" jdbcType="VARCHAR" property="rimage"/>
         <result column="sid" jdbcType="INTEGER" property="sid"/>
-        <result column="sourceId" jdbcType="VARCHAR" property="sourceid"/>
+        <result column="source_id" jdbcType="VARCHAR" property="sourceId"/>
         <result column="isdelete" jdbcType="INTEGER" property="isdelete"/>
     </resultMap>
     <sql id="Base_Column_List">
-    rid, rname, price, routeIntroduce, rflag, rdate, isDiscount, count, bid, rimage, 
-    sid, sourceId, isdelete
+    rid, rname, price, route_introduce, rflag, rdate, isdiscount, count, bid, rimage,
+    sid, source_id, isdelete
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -35,7 +35,7 @@
             and rname like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
         </if>
     </select>
-    <select id="findRouteByPage" resultType="com.szxy.spdb.po.Route">
+    <select id="findRouteByPage" resultMap="BaseResultMap">
         select
         *
         from route
@@ -45,20 +45,67 @@
         </if>
         limit #{start,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
     </select>
+    <select id="findRouteDetailsByRid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        *
+        from route
+        where rid=#{rid,jdbcType=INTEGER}
+    </select>
+    <select id="findBrandByRid" parameterType="java.lang.Integer" resultType="com.szxy.spdb.po.Brand">
+        select
+        b.bname
+        from route r,brand b
+        where r.bid = b.bid and
+        r.rid=#{rid,jdbcType=INTEGER}
+    </select>
+    <select id="findSellerByRid" parameterType="java.lang.Integer" resultType="com.szxy.spdb.po.Seller">
+        select
+        s.sname,s.telephone,s.address
+        from route r,seller s
+        where s.sid=r.sid and
+        r.rid=#{rid,jdbcType=INTEGER}
+    </select>
+    <select id="findRouteCountByRid" resultType="java.lang.Integer">
+        select
+        count
+        from route
+        where rid=#{rid,jdbcType=INTEGER}
+    </select>
+    <select id="findPopularRoute" resultType="com.szxy.spdb.po.Route">
+        select
+        *
+        from route
+        order by count
+        desc limit 0,4
+    </select>
+    <select id="findNewestRoute" resultType="com.szxy.spdb.po.Route">
+        select
+        *
+        from route
+        order by rdate
+        desc limit 0,4
+    </select>
+    <select id="findDiscountRoute" resultType="com.szxy.spdb.po.Route">
+        select
+        *
+        from route
+        where isdiscount = 1
+        limit 0,4
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from route
     where rid = #{rid,jdbcType=INTEGER}
   </delete>
     <insert id="insert" parameterType="com.szxy.spdb.po.Route">
-    insert into route (rid, rname, price, 
-      routeIntroduce, rflag, rdate, 
-      isDiscount, count, bid, 
-      rimage, sid, sourceId, 
+    insert into route (rid, rname, price,
+      route_introduce, rflag, rdate,
+      isdiscount, count, bid,
+      rimage, sid, source_id,
       isdelete)
-    values (#{rid,jdbcType=INTEGER}, #{rname,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, 
-      #{routeintroduce,jdbcType=VARCHAR}, #{rflag,jdbcType=VARCHAR}, #{rdate,jdbcType=VARCHAR}, 
-      #{isdiscount,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, #{bid,jdbcType=INTEGER}, 
-      #{rimage,jdbcType=VARCHAR}, #{sid,jdbcType=INTEGER}, #{sourceid,jdbcType=VARCHAR}, 
+    values (#{rid,jdbcType=INTEGER}, #{rname,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE},
+      #{routeIntroduce,jdbcType=VARCHAR}, #{rflag,jdbcType=VARCHAR}, #{rdate,jdbcType=VARCHAR},
+      #{isdiscount,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, #{bid,jdbcType=INTEGER},
+      #{rimage,jdbcType=VARCHAR}, #{sid,jdbcType=INTEGER}, #{sourceId,jdbcType=VARCHAR},
       #{isdelete,jdbcType=INTEGER})
   </insert>
     <insert id="insertSelective" parameterType="com.szxy.spdb.po.Route">
@@ -73,8 +120,8 @@
             <if test="price != null">
                 price,
             </if>
-            <if test="routeintroduce != null">
-                routeIntroduce,
+            <if test="routeIntroduce != null">
+                route_introduce,
             </if>
             <if test="rflag != null">
                 rflag,
@@ -83,7 +130,7 @@
                 rdate,
             </if>
             <if test="isdiscount != null">
-                isDiscount,
+                isdiscount,
             </if>
             <if test="count != null">
                 count,
@@ -97,8 +144,8 @@
             <if test="sid != null">
                 sid,
             </if>
-            <if test="sourceid != null">
-                sourceId,
+            <if test="sourceId != null">
+                source_id,
             </if>
             <if test="isdelete != null">
                 isdelete,
@@ -114,8 +161,8 @@
             <if test="price != null">
                 #{price,jdbcType=DOUBLE},
             </if>
-            <if test="routeintroduce != null">
-                #{routeintroduce,jdbcType=VARCHAR},
+            <if test="routeIntroduce != null">
+                #{routeIntroduce,jdbcType=VARCHAR},
             </if>
             <if test="rflag != null">
                 #{rflag,jdbcType=VARCHAR},
@@ -138,14 +185,19 @@
             <if test="sid != null">
                 #{sid,jdbcType=INTEGER},
             </if>
-            <if test="sourceid != null">
-                #{sourceid,jdbcType=VARCHAR},
+            <if test="sourceId != null">
+                #{sourceId,jdbcType=VARCHAR},
             </if>
             <if test="isdelete != null">
                 #{isdelete,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
+    <update id="addRouteCountByRid" parameterType="java.lang.Integer">
+        update route
+        set count = count+1
+        where rid = #{rid,jdbcType=INTEGER}
+    </update>
     <update id="updateByPrimaryKeySelective" parameterType="com.szxy.spdb.po.Route">
         update route
         <set>
@@ -155,8 +207,8 @@
             <if test="price != null">
                 price = #{price,jdbcType=DOUBLE},
             </if>
-            <if test="routeintroduce != null">
-                routeIntroduce = #{routeintroduce,jdbcType=VARCHAR},
+            <if test="routeIntroduce != null">
+                route_introduce = #{routeIntroduce,jdbcType=VARCHAR},
             </if>
             <if test="rflag != null">
                 rflag = #{rflag,jdbcType=VARCHAR},
@@ -165,7 +217,7 @@
                 rdate = #{rdate,jdbcType=VARCHAR},
             </if>
             <if test="isdiscount != null">
-                isDiscount = #{isdiscount,jdbcType=VARCHAR},
+                isdiscount = #{isdiscount,jdbcType=VARCHAR},
             </if>
             <if test="count != null">
                 count = #{count,jdbcType=INTEGER},
@@ -179,8 +231,8 @@
             <if test="sid != null">
                 sid = #{sid,jdbcType=INTEGER},
             </if>
-            <if test="sourceid != null">
-                sourceId = #{sourceid,jdbcType=VARCHAR},
+            <if test="sourceId != null">
+                source_id = #{sourceId,jdbcType=VARCHAR},
             </if>
             <if test="isdelete != null">
                 isdelete = #{isdelete,jdbcType=INTEGER},
@@ -192,15 +244,15 @@
     update route
     set rname = #{rname,jdbcType=VARCHAR},
       price = #{price,jdbcType=DOUBLE},
-      routeIntroduce = #{routeintroduce,jdbcType=VARCHAR},
+      route_introduce = #{routeIntroduce,jdbcType=VARCHAR},
       rflag = #{rflag,jdbcType=VARCHAR},
       rdate = #{rdate,jdbcType=VARCHAR},
-      isDiscount = #{isdiscount,jdbcType=VARCHAR},
+      isdiscount = #{isdiscount,jdbcType=VARCHAR},
       count = #{count,jdbcType=INTEGER},
       bid = #{bid,jdbcType=INTEGER},
       rimage = #{rimage,jdbcType=VARCHAR},
       sid = #{sid,jdbcType=INTEGER},
-      sourceId = #{sourceid,jdbcType=VARCHAR},
+      source_id = #{sourceId,jdbcType=VARCHAR},
       isdelete = #{isdelete,jdbcType=INTEGER}
     where rid = #{rid,jdbcType=INTEGER}
   </update>

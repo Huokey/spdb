@@ -10,6 +10,8 @@ CREATE TABLE `user` (
   `email` varchar(36) NOT NULL COMMENT '邮箱',
   PRIMARY KEY (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '用户表';
+INSERT INTO `user` VALUES ('1', 'balance', '81dc9bdb52d04dc20036dbd8313ed055', '胡棋', '1997-10-17', '男', '18895310288', '1079942151@qq.com');
+INSERT INTO `user` VALUES ('2', 'didi', '81dc9bdb52d04dc20036dbd8313ed055', '操浩东', '1996-07-16', '女', '15720579211', '787868789@qq.com');
 
 DROP TABLE IF EXISTS `brand`;
 CREATE TABLE `brand` (
@@ -43,18 +45,18 @@ CREATE TABLE `route` (
   `rid` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键rid' ,
   `rname` varchar(500) NOT NULL COMMENT '线路名称' ,
   `price` double NOT NULL COMMENT '价格' ,
-  `routeIntroduce` varchar(1000) DEFAULT NULL COMMENT '线路介绍' ,
+  `route_introduce` varchar(1000) DEFAULT NULL COMMENT '线路介绍' ,
   `rflag` varchar(10) NOT NULL COMMENT '是否上架' ,
   `rdate` varchar(19) DEFAULT NULL COMMENT '上架时间' ,
-  `isDiscount` varchar(10) NOT NULL COMMENT '是否优惠' ,
+  `isdiscount` varchar(10) NOT NULL COMMENT '是否优惠' ,
   `count` int(11) DEFAULT '0' COMMENT '收藏数量' ,
   `bid` int(11) NOT NULL COMMENT '所属分类' ,
   `rimage` varchar(200) DEFAULT NULL COMMENT '缩略图' ,
   `sid` int(11) DEFAULT NULL COMMENT '所属商家' ,
-  `sourceId` varchar(50) DEFAULT NULL COMMENT '抓取数据的来源id' ,
+  `source_id` varchar(50) DEFAULT NULL COMMENT '抓取数据的来源id' ,
   `isdelete` int(10) NOT NULL COMMENT '是否删除' ,
   PRIMARY KEY (`rid`),
-  UNIQUE KEY `AK_sourceId` (`sourceId`),
+  UNIQUE KEY `AK_source_id` (`source_id`),
   KEY `FK_brand_route` (`bid`),
   KEY `FK_seller_route` (`sid`),
   CONSTRAINT `FK_brand_route` FOREIGN KEY (`bid`) REFERENCES `brand` (`bid`),
@@ -68,8 +70,8 @@ DROP TABLE IF EXISTS `route_img`;
 CREATE TABLE `route_img` (
   `rgid` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键rgid',
   `rid` int(11) NOT NULL COMMENT '地板id',
-  `bigPic` varchar(200) NOT NULL COMMENT '详情商品大图',
-  `smallPic` varchar(200) DEFAULT NULL COMMENT '详情商品小图',
+  `big_pic` varchar(200) NOT NULL COMMENT '详情商品大图',
+  `small_pic` varchar(200) DEFAULT NULL COMMENT '详情商品小图',
   PRIMARY KEY (`rgid`),
   KEY `FK_route_routeimg` (`rid`),
   CONSTRAINT `FK_route_routeimg` FOREIGN KEY (`rid`) REFERENCES `route` (`rid`)
@@ -80,3 +82,20 @@ INSERT INTO `route_img` VALUES ('3', '1', 'img/product/size4/m412cf97538027a813a
 INSERT INTO `route_img` VALUES ('4', '1', 'img/product/size4/m47fe3031a3df75ab5e6711ae2338c18f7.jpg', 'img/product/size2/m27fe3031a3df75ab5e6711ae2338c18f7.jpg');
 INSERT INTO `route_img` VALUES ('5', '2', 'img/product/size4/m44866f055de8630e94e25c40f277a79ba.jpg', 'img/product/size2/m24866f055de8630e94e25c40f277a79ba.jpg');
 INSERT INTO `route_img` VALUES ('6', '3', 'img/product/size4/m4db4d2277b5df3d98597f79082ef92d6d.jpg', 'img/product/size2/m2db4d2277b5df3d98597f79082ef92d6d.jpg');
+
+DROP TABLE IF EXISTS `favorite`;
+CREATE TABLE `favorite` (
+  `rid` int(11) NOT NULL COMMENT '主键rid',
+  `date` date NOT NULL COMMENT '收藏日期',
+  `uid` int(11) NOT NULL COMMENT '主键uid',
+  PRIMARY KEY (`rid`,`uid`),
+  KEY `FK_route_favorite` (`rid`),
+  KEY `FK_user_favorite` (`uid`),
+  CONSTRAINT `FK_route_favorite` FOREIGN KEY (`rid`) REFERENCES `route` (`rid`),
+  CONSTRAINT `FK_user_favorite` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '收藏表';
+INSERT INTO `favorite` VALUES ('1', '2019-2-23', '1');
+INSERT INTO `favorite` VALUES ('1', '2019-2-23', '2');
+INSERT INTO `favorite` VALUES ('2', '2019-2-23', '1');
+INSERT INTO `favorite` VALUES ('3', '2019-2-23', '1');
+INSERT INTO `favorite` VALUES ('3', '2019-2-24', '2');

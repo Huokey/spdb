@@ -102,7 +102,7 @@
     $(function () {
         //验证收藏按钮
         $.ajax({
-            url:"/favoriteServlet?methodName=findFavoriteByRid",
+            url:"/favorite/findFavoriteByRid",
             data:{"rid":rid},
             dataType:"json",
             success:function (res) {
@@ -120,14 +120,14 @@
                     $("#favorite").append($btn);
                 }
                 //增加收藏次数
-                var $span = $("<span id='favoriteSpan'>已收藏"+res.count+"次</span>")
+                var $span = $("<span id='favoriteSpan'>已收藏"+res.value+"次</span>")
                 $("#favorite").append($span);
             }
         });
     })
     $(function () {
         $.ajax({
-            url:"/routeServlet?methodName=findRouteDetailsByRid",
+            url:"/route/findRouteDetailsByRid",
             data:{"rid":rid},
             dataType:"json",
             success:function (res) {
@@ -150,22 +150,22 @@
                      *   }
                  */
                 //导航栏
-                $("#category").html(res.category.cname);
-                $("#name").html(res.rname);
+                $("#category").html((res.value).brand.bname);
+                $("#name").html((res.value).rname);
 
                 ///图片
-                $("#big_img").attr("src",res.rimage);
-                for (var i = 0;i < res.routeImgList.length;i++){
+                $("#big_img").attr("src",(res.value).rimage);
+                for (var i = 0;i < (res.value).routeImgList.length;i++){
                     if (i<4) {
                         var $little = $(" <a title=\"\" class=\"little_img\"\n" +
-                            "                   data-bigpic=\"" + res.routeImgList[i].bigPic + "\">\n" +
-                            "                    <img src=\"" + res.routeImgList[i].smallPic + "\">\n" +
+                            "                   data-bigpic=\"" + (res.value).routeImgList[i].bigPic + "\">\n" +
+                            "                    <img src=\"" + (res.value).routeImgList[i].smallPic + "\">\n" +
                             "                </a>");
                     }else {
                         var $little = $("<a title=\"\" class=\"little_img\"\n" +
-                            "                   data-bigpic=\"" + res.routeImgList[i].bigPic + "\"\n" +
+                            "                   data-bigpic=\"" + (res.value).routeImgList[i].bigPic + "\"\n" +
                             "                   style=\"display:none;\">\n" +
-                            "                    <img src=\"" + res.routeImgList[i].smallPic + "\">\n" +
+                            "                    <img src=\"" + (res.value).routeImgList[i].smallPic + "\">\n" +
                             "                </a>")
                     }
                     $("#little_img").before($little);
@@ -174,22 +174,22 @@
                 imgGo();
 
                 //标题
-                $("#title").html(res.rname);
+                $("#title").html((res.value).rname);
                 //介绍
-                $("#introduce").html(res.routeIntroduce);
+                $("#introduce").html((res.value).routeIntroduce);
                 //商家信息
-                $("#sellerName").html("经营商家 ："+res.seller.sname);
-                $("#sellerPhone").html("咨询电话 : "+res.seller.consphone);
-                $("#sellerAddress").html("地址 ： "+res.seller.address);
+                $("#sellerName").html("经营商家 ："+(res.value).seller.sname);
+                $("#sellerPhone").html("咨询电话 : "+(res.value).seller.telephone);
+                $("#sellerAddress").html("地址 ： "+(res.value).seller.address);
                 //价格
-                $("#price").html("￥"+res.price)
+                $("#price").html("￥"+(res.value).price)
             }
         });
     })
 
     function addFavorite() {
         $.ajax({
-            url:"favoriteServlet?methodName=addFavoriteByRid",
+            url:"favorite/addFavoriteByRid",
             data:{"rid":rid},
             dataType:"json",
             success:function (res) {
@@ -201,7 +201,7 @@
                     var $btn = $("<a class=\"btn already\" disabled=\"disabled\"><i class=\"glyphicon glyphicon-heart-empty\"></i>点击收藏</a>");
                     $("#favoriteSpan").before($btn);
                     //增加收藏次数
-                    $("#favoriteSpan").html("已收藏"+res.count+"次");
+                    $("#favoriteSpan").html("已收藏"+res.value+"次");
                 }else if (res.message == "noLogin"){
                     window.location.href = "login.html"
                 }else {

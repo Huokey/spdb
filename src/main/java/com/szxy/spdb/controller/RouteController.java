@@ -29,4 +29,17 @@ public class RouteController {
         request.setCharacterEncoding("utf-8");
         return routeService.findRouteByPage(cid,currentPage,searchValue);
     }
+
+    //获取品牌列表
+    @RequestMapping(value = "/findRouteDetailsByRid",method = RequestMethod.GET)
+    public WebResult findRouteDetailsByRid(int rid) {
+        return routeService.findRouteDetailsByRid(rid);
+    }
+
+    //获取品牌列表
+    @RequestMapping(value = "/findChoiceRoute",method = RequestMethod.GET)
+    public WebResult findChoiceRoute() {
+        return routeService.findChoiceRoute();
+    }
+
 }

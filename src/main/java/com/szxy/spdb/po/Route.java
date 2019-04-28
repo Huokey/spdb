@@ -9,7 +9,7 @@ public class Route {
 
     private Double price;
 
-    private String routeintroduce;
+    private String routeIntroduce;
 
     private String rflag;
 
@@ -25,7 +25,7 @@ public class Route {
 
     private Integer sid;
 
-    private String sourceid;
+    private String sourceId;
 
     private Integer isdelete;
 
@@ -57,12 +57,12 @@ public class Route {
         this.price = price;
     }
 
-    public String getRouteintroduce() {
-        return routeintroduce;
+    public String getRouteIntroduce() {
+        return routeIntroduce;
     }
 
-    public void setRouteintroduce(String routeintroduce) {
-        this.routeintroduce = routeintroduce;
+    public void setRouteIntroduce(String routeIntroduce) {
+        this.routeIntroduce = routeIntroduce;
     }
 
     public String getRflag() {
@@ -121,12 +121,12 @@ public class Route {
         this.sid = sid;
     }
 
-    public String getSourceid() {
-        return sourceid;
+    public String getSourceId() {
+        return sourceId;
     }
 
-    public void setSourceid(String sourceid) {
-        this.sourceid = sourceid;
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId;
     }
 
     public Integer getIsdelete() {
@@ -135,5 +135,29 @@ public class Route {
 
     public void setIsdelete(Integer isdelete) {
         this.isdelete = isdelete;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
+    }
+
+    public Seller getSeller() {
+        return seller;
+    }
+
+    public void setSeller(Seller seller) {
+        this.seller = seller;
+    }
+
+    public List<RouteImg> getRouteImgList() {
+        return routeImgList;
+    }
+
+    public void setRouteImgList(List<RouteImg> routeImgList) {
+        this.routeImgList = routeImgList;
     }
 }

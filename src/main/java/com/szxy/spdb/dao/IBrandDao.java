@@ -18,4 +18,5 @@ public interface IBrandDao {
     int updateByPrimaryKey(Brand record);
 
     List<Brand> findAllBrands();
+
 }

@@ -93,7 +93,7 @@
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="theme">
-                    <div class="row" id="themeRoute">
+                    <div class="row" id="discountRoute">
 
                     </div>
                 </div>
@@ -267,47 +267,47 @@
                  * {
                      * popularRoute:[{rid:v},{rname:v}],
                      * newestRoute:[{rid:v},{rname:v}],
-                     * themeRoute:[{rid:v},{rname:v}]
+                     * discountRoute:[{rid:v},{rname:v}]
                      * }
                  */
                 //人气旅游
-                for (var i = 0; i < res.popularRoute.length; i++) {
+                for (var i = 0; i < (res.value).popularRoute.length; i++) {
                     var $div = "<div class=\"col-md-3\">\n" +
                         "                                <a href=\"javascript:;\">\n" +
-                        "                                    <img src=\"" + res.popularRoute[i].rimage + "\" alt=\"\">\n" +
+                        "                                    <img src=\"" + (res.value).popularRoute[i].rimage + "\" alt=\"\">\n" +
                         "                                    <div class=\"has_border\">\n" +
-                        "                                        <h3>" + res.popularRoute[i].rname + "</h3>\n" +
-                        "                                        <div class=\"price\">网付价<em>￥</em><strong>" + res.popularRoute[i].price + "</strong><em>起</em></div>\n" +
+                        "                                        <h3>" + (res.value).popularRoute[i].rname + "</h3>\n" +
+                        "                                        <div class=\"price\">网付价<em>￥</em><strong>" + (res.value).popularRoute[i].price + "</strong><em>起</em></div>\n" +
                         "                                    </div>\n" +
                         "                                </a>\n" +
                         "                            </div>"
                     $("#popularRoute").append($div);
                 }
                 //最新旅游
-                for (var i = 0; i < res.newestRoute.length; i++) {
+                for (var i = 0; i < (res.value).newestRoute.length; i++) {
                     var $div = "<div class=\"col-md-3\">\n" +
                         "                                <a href=\"javascript:;\">\n" +
-                        "                                    <img src=\"" + res.newestRoute[i].rimage + "\" alt=\"\">\n" +
+                        "                                    <img src=\"" + (res.value).newestRoute[i].rimage + "\" alt=\"\">\n" +
                         "                                    <div class=\"has_border\">\n" +
-                        "                                        <h3>" + res.newestRoute[i].rname + "</h3>\n" +
-                        "                                        <div class=\"price\">网付价<em>￥</em><strong>" + res.newestRoute[i].price + "</strong><em>起</em></div>\n" +
+                        "                                        <h3>" + (res.value).newestRoute[i].rname + "</h3>\n" +
+                        "                                        <div class=\"price\">网付价<em>￥</em><strong>" + (res.value).newestRoute[i].price + "</strong><em>起</em></div>\n" +
                         "                                    </div>\n" +
                         "                                </a>\n" +
                         "                            </div>"
                     $("#newestRoute").append($div);
                 }
                 //主题旅游
-                for (var i = 0; i < res.themeRoute.length; i++) {
+                for (var i = 0; i < (res.value).discountRoute.length; i++) {
                     var $div = "<div class=\"col-md-3\">\n" +
                         "                                <a href=\"javascript:;\">\n" +
-                        "                                    <img src=\"" + res.themeRoute[i].rimage + "\" alt=\"\">\n" +
+                        "                                    <img src=\"" + (res.value).discountRoute[i].rimage + "\" alt=\"\">\n" +
                         "                                    <div class=\"has_border\">\n" +
-                        "                                        <h3>" + res.themeRoute[i].rname + "</h3>\n" +
-                        "                                        <div class=\"price\">网付价<em>￥</em><strong>" + res.themeRoute[i].price + "</strong><em>起</em></div>\n" +
+                        "                                        <h3>" + (res.value).discountRoute[i].rname + "</h3>\n" +
+                        "                                        <div class=\"price\">网付价<em>￥</em><strong>" + (res.value).discountRoute[i].price + "</strong><em>起</em></div>\n" +
                         "                                    </div>\n" +
                         "                                </a>\n" +
                         "                            </div>"
-                    $("#themeRoute").append($div);
+                    $("#discountRoute").append($div);
                 }
             }
         })

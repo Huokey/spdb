@@ -5,9 +5,9 @@ public class RouteImg {
 
     private Integer rid;
 
-    private String bigpic;
+    private String bigPic;
 
-    private String smallpic;
+    private String smallPic;
 
     public Integer getRgid() {
         return rgid;
@@ -25,19 +25,19 @@ public class RouteImg {
         this.rid = rid;
     }
 
-    public String getBigpic() {
-        return bigpic;
+    public String getBigPic() {
+        return bigPic;
     }
 
-    public void setBigpic(String bigpic) {
-        this.bigpic = bigpic;
+    public void setBigPic(String bigPic) {
+        this.bigPic = bigPic;
     }
 
-    public String getSmallpic() {
-        return smallpic;
+    public String getSmallPic() {
+        return smallPic;
     }
 
-    public void setSmallpic(String smallpic) {
-        this.smallpic = smallpic;
+    public void setSmallPic(String smallPic) {
+        this.smallPic = smallPic;
     }
 }

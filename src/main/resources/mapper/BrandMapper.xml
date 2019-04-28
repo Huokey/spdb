@@ -20,7 +20,7 @@
     from brand
     where 1
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from brand
     where bid = #{bid,jdbcType=INTEGER}
   </delete>
