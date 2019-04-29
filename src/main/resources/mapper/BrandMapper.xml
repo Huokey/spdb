@@ -19,6 +19,7 @@
     <include refid="Base_Column_List" />
     from brand
     where 1
+    order by bid asc
   </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from brand

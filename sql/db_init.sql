@@ -27,7 +27,7 @@ INSERT INTO `brand` VALUES ('4', '生活家地板');
 INSERT INTO `brand` VALUES ('5', '久盛地板');
 INSERT INTO `brand` VALUES ('6', '世和地板');
 INSERT INTO `brand` VALUES ('7', '德尔地板');
-INSERT INTO `brand` VALUES ('8', '西塞罗地板');
+INSERT INTO `brand` VALUES ('8', '其他');
 
 DROP TABLE IF EXISTS `seller`;
 CREATE TABLE `seller` (
@@ -62,9 +62,10 @@ CREATE TABLE `route` (
   CONSTRAINT `FK_brand_route` FOREIGN KEY (`bid`) REFERENCES `brand` (`bid`),
   CONSTRAINT `FK_seller_route` FOREIGN KEY (`sid`) REFERENCES `seller` (`sid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=521 DEFAULT CHARSET=utf8 COMMENT '地板线路表';
-INSERT INTO `route` VALUES ('1', '圣象地板 F4星环保浮雕面强化复合耐磨北欧卧室客厅家用木地板 F4星级摩登夜色NF1103-全包价', '140', '圣象强化复合木地板精选百年以上珍贵硬木，历经年份的沉淀，充分发挥原木本身的柔和色彩、细密质感以及天然纹理，并融入时尚百搭的设计，是简单结构与舒适功能的完美结合。', '1', '2019-02-09 07:13:16', '0', '73', '1', 'img/product/small/m304b69a4c8328f7d6b8d5dadef020fe07.jpg', '1', '23677', '1');
-INSERT INTO `route` VALUES ('2', '大自然（Nature） 实木多层复合地板15mm 番龙眼2色（裸板） DJX66Z', '194', '大自然实木多层复合地板结构稳固，环保健康，是不可多得的品质之选，其引进使用德国高端技术，78道工序工匠品质地板保驾护航，可以说是为高品质生活量身定制。', '1', '2019-02-09 08:32:47', '1', '86', '2', 'img/product/small/m34866f055de8630e94e25c40f277a79ba.jpg', '1', '22066', '0');
-INSERT INTO `route` VALUES ('3', '生活家巴洛克地板桦木多层实木复合木地板家用地热环保木地板15mm 地板木地板复合地板 黄金贵族', '189', '生活家地热环保地板继承北欧北欧百年精工制木的良匠工艺，采用了欧洲专利锁扣技术，保证地板连接处的无缝和超抗变形能力，安装时只需将两块地板上下对合，就能精密地扣合。', '1', '2019-02-09 09:56:12', '0', '62', '4', 'img/product/small/m3db4d2277b5df3d98597f79082ef92d6d.jpg', '1', '21998', '0');
+INSERT INTO `route` VALUES ('1', '圣象地板强化复合地板F4星环保地板浮雕耐磨家用NF11地暖木地板', '108', 'F4星环保大浮雕耐磨地板易打理不开裂', '1', '2019-02-10 09:56:12', '1', '62', '1', 'img/product/small/s20190429134001.jpg', '1', '21996', '0');
+INSERT INTO `route` VALUES ('2', '圣象地板 三层实木复合蓝山橡木无缝拼接客厅卧室北欧地暖木地板', '368', '热销爆款 橡木地板 主流百搭 北欧风格', '1', '2019-02-11 09:56:12', '0', '52', '1', 'img/product/small/s20190429142301.jpg', '1', '21596', '0');
+INSERT INTO `route` VALUES ('3', '圣象地板家用强化复合地板F4星环保浮雕耐磨木地板客厅卧室', '118', 'F4星大浮雕耐磨环保 升级安装补贴50%安装费', '1', '2019-02-12 09:56:12', '1', '48', '1', 'img/product/small/s20190429144401.jpg', '1', '22586', '0');
+INSERT INTO `route` VALUES ('4', '圣象地板 多层实木复合橡木（柞木）15mm北欧浅色地暖环保木地板', '248', '圣象23年品质护航', '1', '2019-02-13 09:56:12', '1', '66', '1', 'img/product/small/s20190429151401.jpg', '1', '23586', '0');
 
 DROP TABLE IF EXISTS `route_img`;
 CREATE TABLE `route_img` (
@@ -76,12 +77,22 @@ CREATE TABLE `route_img` (
   KEY `FK_route_routeimg` (`rid`),
   CONSTRAINT `FK_route_routeimg` FOREIGN KEY (`rid`) REFERENCES `route` (`rid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '地板图片列表';
-INSERT INTO `route_img` VALUES ('1', '1', 'img/product/size4/m421d66d4446940b1c80a0092c91e75184.jpg', 'img/product/size2/m221d66d4446940b1c80a0092c91e75184.jpg');
-INSERT INTO `route_img` VALUES ('2', '1', 'img/product/size4/m4227f0cde1b021a77c56c1c18a8f2e7fd.jpg', 'img/product/size2/m2227f0cde1b021a77c56c1c18a8f2e7fd.jpg');
-INSERT INTO `route_img` VALUES ('3', '1', 'img/product/size4/m412cf97538027a813a4fb0bd6980a7fea.jpg', 'img/product/size2/m212cf97538027a813a4fb0bd6980a7fea.jpg');
-INSERT INTO `route_img` VALUES ('4', '1', 'img/product/size4/m47fe3031a3df75ab5e6711ae2338c18f7.jpg', 'img/product/size2/m27fe3031a3df75ab5e6711ae2338c18f7.jpg');
-INSERT INTO `route_img` VALUES ('5', '2', 'img/product/size4/m44866f055de8630e94e25c40f277a79ba.jpg', 'img/product/size2/m24866f055de8630e94e25c40f277a79ba.jpg');
-INSERT INTO `route_img` VALUES ('6', '3', 'img/product/size4/m4db4d2277b5df3d98597f79082ef92d6d.jpg', 'img/product/size2/m2db4d2277b5df3d98597f79082ef92d6d.jpg');
+INSERT INTO `route_img` VALUES ('1', '1', 'img/product/size4/420190429134001.jpg', 'img/product/size2/220190429134001.jpg');
+INSERT INTO `route_img` VALUES ('2', '1', 'img/product/size4/420190429132801.jpg', 'img/product/size2/220190429132801.jpg');
+INSERT INTO `route_img` VALUES ('3', '1', 'img/product/size4/420190429133801.jpg', 'img/product/size2/220190429133801.jpg');
+INSERT INTO `route_img` VALUES ('4', '1', 'img/product/size4/420190429134201.jpg', 'img/product/size2/220190429134201.jpg');
+INSERT INTO `route_img` VALUES ('5', '2', 'img/product/size4/420190429142301.jpg', 'img/product/size2/220190429142301.jpg');
+INSERT INTO `route_img` VALUES ('6', '2', 'img/product/size4/420190429142501.jpg', 'img/product/size2/220190429142501.jpg');
+INSERT INTO `route_img` VALUES ('7', '2', 'img/product/size4/420190429142601.jpg', 'img/product/size2/220190429142601.jpg');
+INSERT INTO `route_img` VALUES ('8', '2', 'img/product/size4/420190429142701.jpg', 'img/product/size2/220190429142701.jpg');
+INSERT INTO `route_img` VALUES ('9', '3', 'img/product/size4/420190429144401.jpg', 'img/product/size2/220190429144401.jpg');
+INSERT INTO `route_img` VALUES ('10', '3', 'img/product/size4/420190429144601.jpg', 'img/product/size2/220190429144601.jpg');
+INSERT INTO `route_img` VALUES ('11', '3', 'img/product/size4/420190429144701.jpg', 'img/product/size2/220190429144701.jpg');
+INSERT INTO `route_img` VALUES ('12', '3', 'img/product/size4/420190429144901.jpg', 'img/product/size2/220190429144901.jpg');
+INSERT INTO `route_img` VALUES ('13', '4', 'img/product/size4/420190429151401.jpg', 'img/product/size2/220190429151401.jpg');
+INSERT INTO `route_img` VALUES ('14', '4', 'img/product/size4/420190429151701.jpg', 'img/product/size2/220190429151701.jpg');
+INSERT INTO `route_img` VALUES ('15', '4', 'img/product/size4/420190429151801.jpg', 'img/product/size2/220190429151801.jpg');
+INSERT INTO `route_img` VALUES ('16', '4', 'img/product/size4/420190429152001.jpg', 'img/product/size2/220190429152001.jpg');
 
 DROP TABLE IF EXISTS `favorite`;
 CREATE TABLE `favorite` (

@@ -50,7 +50,7 @@
                 <p id="sellerAddress"></p>
             </div>
             <div class="pros_price">
-                <p class="price" ><strong id="price"></strong><span>起</span></p>
+                <p class="price"><strong id="price"></strong><span>起</span></p>
                 <p class="collect" id="favorite">
 
 
@@ -61,28 +61,21 @@
     <div class="you_need_konw">
         <span>旅游须知</span>
         <div class="notice">
-            <p>1、旅行社已投保旅行社责任险。建议游客购买旅游意外保险 <br>
+            <p>1、地板我们都是委托物流公司运输到您当地物流点，您需要上门自提。 <br>
 
             <p>
-                2、旅游者参加打猎、潜水、海边游泳、漂流、滑水、滑雪、滑草、蹦极、跳伞、滑翔、乘热气球、骑马、赛车、攀岩、水疗、水上飞机等属于高风险性游乐项目的，敬请旅游者务必在参加前充分了解项目的安全须知并确保身体状况能适应此类活动；如旅游者不具备较好的身体条件及技能，可能会造成身体伤害。</p>
-
-            <p>
-                3、参加出海活动时，请务必穿着救生设备。参加水上活动应注意自己的身体状况，有心脏病、冠心病、高血压、感冒、发烧和饮酒及餐后不可以参加水上活动及潜水。在海里活动时，严禁触摸海洋中各种鱼类，水母，海胆，珊瑚等海洋生物，避免被其蛰伤。老人和小孩必须有成年人陪同才能参加合适的水上活动。在海边游玩时，注意保管好随身携带的贵重物品。</p>
-
-            <p>4、根据中国海关总署的规定，旅客在境外购买的物品，在进入中国海关时可能需要征收关税。详细内容见《中华人民共和国海关总署公告2010年第54号文件》。</p>
-
-            <p>5、建议出发时行李托运，贵重物品、常用物品、常用药品、御寒衣物等请随身携带，尽量不要托运。行李延误属于不可抗力因素，我司将全力协助客人跟进后续工作，但我司对此不承担任何责任。</p>
-            <p>1、旅行社已投保旅行社责任险。建议游客购买旅游意外保险 <br>
-
-            <p>
-                2、旅游者参加打猎、潜水、海边游泳、漂流、滑水、滑雪、滑草、蹦极、跳伞、滑翔、乘热气球、骑马、赛车、攀岩、水疗、水上飞机等属于高风险性游乐项目的，敬请旅游者务必在参加前充分了解项目的安全须知并确保身体状况能适应此类活动；如旅游者不具备较好的身体条件及技能，可能会造成身体伤害。</p>
+                2、如您所在地级市的下辖市或是没有物流点的地区，可能会产生100 - 300的中转费，需要您自付，如您想了解是否需要支付中转费，请咨询尚品地板客服。</p>
 
             <p>
                 3、参加出海活动时，请务必穿着救生设备。参加水上活动应注意自己的身体状况，有心脏病、冠心病、高血压、感冒、发烧和饮酒及餐后不可以参加水上活动及潜水。在海里活动时，严禁触摸海洋中各种鱼类，水母，海胆，珊瑚等海洋生物，避免被其蛰伤。老人和小孩必须有成年人陪同才能参加合适的水上活动。在海边游玩时，注意保管好随身携带的贵重物品。</p>
 
-            <p>4、根据中国海关总署的规定，旅客在境外购买的物品，在进入中国海关时可能需要征收关税。详细内容见《中华人民共和国海关总署公告2010年第54号文件》。</p>
+            <p>4、物流公司对于部分省市有保底发货量要求，如果您购买的地板数量太少，部分省市发货需要您补拍全部运费。全国10m2以下(含10m2)
+                运费自理，运费金额请咨询客服。云南新疆西藏四川辽宁吉林甘肃内蒙古宁夏贵州黑龙江等偏远地区10m2以下运费自理，
+                10m²以上需要补拍6元/m²运费，中转费和送货费另收。(具体运费请咨询在线客服)
+            </p>
 
-            <p>5、建议出发时行李托运，贵重物品、常用物品、常用药品、御寒衣物等请随身携带，尽量不要托运。行李延误属于不可抗力因素，我司将全力协助客人跟进后续工作，但我司对此不承担任何责任。</p>
+            <p>5、到货后您可以让当地物流点送货到您家楼下(不包含上楼)，送货费与物流公司协商，送货费需要您自付。</p>
+            <p>6、在全国各地已经建立安装合作点，您可以选择我们推荐的安装上门为您服务，您需要单独支付安装费用，也可以选择自己找师傅安装(因各地行情不同，价格略有浮动)。<br>
         </div>
     </div>
 </div>
@@ -102,66 +95,66 @@
     $(function () {
         //验证收藏按钮
         $.ajax({
-            url:"/favorite/findFavoriteByRid",
-            data:{"rid":rid},
-            dataType:"json",
-            success:function (res) {
+            url: "/favorite/findFavoriteByRid",
+            data: {"rid": rid},
+            dataType: "json",
+            success: function (res) {
                 /**
                  * {message:noLogin/nofavorite/alreadyFavorite,count:count}
                  *
                  */
                 //增加收藏次数
 
-                if (res.message=="alreadyFavorite"){
+                if (res.message == "alreadyFavorite") {
                     var $btn = $("<a  class=\"btn already\" disabled=\"disabled\"><i class=\"glyphicon glyphicon-heart-empty\"></i>点击收藏</a>");
                     $("#favorite").append($btn);
-                }else {
+                } else {
                     var $btn = $("<a id='favoriteBtn' class=\"btn\" onclick='addFavorite()'><i class=\"glyphicon glyphicon-heart-empty\"></i>点击收藏</a>");
                     $("#favorite").append($btn);
                 }
                 //增加收藏次数
-                var $span = $("<span id='favoriteSpan'>已收藏"+res.value+"次</span>")
+                var $span = $("<span id='favoriteSpan'>已收藏" + res.value + "次</span>")
                 $("#favorite").append($span);
             }
         });
     })
     $(function () {
         $.ajax({
-            url:"/route/findRouteDetailsByRid",
-            data:{"rid":rid},
-            dataType:"json",
-            success:function (res) {
+            url: "/route/findRouteDetailsByRid",
+            data: {"rid": rid},
+            dataType: "json",
+            success: function (res) {
                 /**
                  *   {
-                     *      rid:v,
-                     *      rname:v,
-                     *      rimage:v
-                     *      category:{
-                     *          cid:v,
-                     *          cname:v
-                     *      },
-                     *      seller:{
-                     *          sid:v,
-                     *          sname:v
-                     *      },
-                     *      routeImgList:[
-                     *          {bigPic:v,smallPic:v}
-                     *      ]
-                     *   }
+                 *      rid:v,
+                 *      rname:v,
+                 *      rimage:v
+                 *      category:{
+                 *          cid:v,
+                 *          cname:v
+                 *      },
+                 *      seller:{
+                 *          sid:v,
+                 *          sname:v
+                 *      },
+                 *      routeImgList:[
+                 *          {bigPic:v,smallPic:v}
+                 *      ]
+                 *   }
                  */
                 //导航栏
                 $("#category").html((res.value).brand.bname);
                 $("#name").html((res.value).rname);
 
                 ///图片
-                $("#big_img").attr("src",(res.value).rimage);
-                for (var i = 0;i < (res.value).routeImgList.length;i++){
-                    if (i<4) {
+                $("#big_img").attr("src", (res.value).rimage);
+                for (var i = 0; i < (res.value).routeImgList.length; i++) {
+                    if (i < 4) {
                         var $little = $(" <a title=\"\" class=\"little_img\"\n" +
                             "                   data-bigpic=\"" + (res.value).routeImgList[i].bigPic + "\">\n" +
                             "                    <img src=\"" + (res.value).routeImgList[i].smallPic + "\">\n" +
                             "                </a>");
-                    }else {
+                    } else {
                         var $little = $("<a title=\"\" class=\"little_img\"\n" +
                             "                   data-bigpic=\"" + (res.value).routeImgList[i].bigPic + "\"\n" +
                             "                   style=\"display:none;\">\n" +
@@ -178,22 +171,22 @@
                 //介绍
                 $("#introduce").html((res.value).routeIntroduce);
                 //商家信息
-                $("#sellerName").html("经营商家 ："+(res.value).seller.sname);
-                $("#sellerPhone").html("咨询电话 : "+(res.value).seller.telephone);
-                $("#sellerAddress").html("地址 ： "+(res.value).seller.address);
+                $("#sellerName").html("经营商家 ：" + (res.value).seller.sname);
+                $("#sellerPhone").html("咨询电话 : " + (res.value).seller.telephone);
+                $("#sellerAddress").html("地址 ： " + (res.value).seller.address);
                 //价格
-                $("#price").html("￥"+(res.value).price)
+                $("#price").html("￥" + (res.value).price)
             }
         });
     })
 
     function addFavorite() {
         $.ajax({
-            url:"favorite/addFavoriteByRid",
-            data:{"rid":rid},
-            dataType:"json",
-            success:function (res) {
-                if (res.message == "success"){
+            url: "favorite/addFavoriteByRid",
+            data: {"rid": rid},
+            dataType: "json",
+            success: function (res) {
+                if (res.message == "success") {
                     //alert("收藏成功！")
                     //移除红色按钮
                     $("#favoriteBtn").remove();
@@ -201,10 +194,10 @@
                     var $btn = $("<a class=\"btn already\" disabled=\"disabled\"><i class=\"glyphicon glyphicon-heart-empty\"></i>点击收藏</a>");
                     $("#favoriteSpan").before($btn);
                     //增加收藏次数
-                    $("#favoriteSpan").html("已收藏"+res.value+"次");
-                }else if (res.message == "noLogin"){
+                    $("#favoriteSpan").html("已收藏" + res.value + "次");
+                } else if (res.message == "noLogin") {
                     window.location.href = "login.html"
-                }else {
+                } else {
                     alert("服务器繁忙，请稍后重试。。。")
                 }
             }

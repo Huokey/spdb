@@ -48,4 +48,10 @@ public class UserTest {
         List<Route> routeByPage = routeDao.findRouteByPage(1, 0, 1, null);
         System.out.println(routeByPage.get(0).getRouteIntroduce());
     }
+
+    @Test
+    public void test4(){
+        List<Brand> list = brandDao.findAllBrands();
+        System.out.println(list.get(0).getBname());
+    }
 }

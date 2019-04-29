@@ -23,18 +23,18 @@ public class BrandService implements IBrandService {
 
     @Override
     public WebResult findAllBrands() {
-        Jedis jedis = new Jedis();
-        String json = jedis.get("brands");
-        if (StringUtils.isEmpty(json)){
+        //Jedis jedis = new Jedis();
+        //String json = jedis.get("brands");
+        //if (StringUtils.isEmpty(json)){
             //从数据库中获取数据
             List<Brand> list = brandDao.findAllBrands();
-            json = JSON.toJSONString(list);
-            jedis.set("brands",json);
+            //json = JSON.toJSONString(list);
+            //jedis.set("brands",json);
             return WebResult.success(list);
-        }else {
+        //}else {
             //从jedis中获取数据
-            List<Brand> value = JSONObject.parseArray(json, Brand.class);
-            return WebResult.success("yes",value);
-        }
+         //   List<Brand> value = JSONObject.parseArray(json, Brand.class);
+           // return WebResult.success("yes",value);
+       // }
     }
 }
