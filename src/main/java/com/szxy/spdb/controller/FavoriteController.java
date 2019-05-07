@@ -54,4 +54,17 @@ public class FavoriteController {
         }
     }
 
+    //我的收藏页面
+    @RequestMapping(value = "/findMyFavoriteRouteByPage", method = RequestMethod.GET)
+    public WebResult findMyFavoriteRouteByPage(HttpServletRequest request) throws IOException {
+        //1.检查用户是否登陆
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null){
+            return WebResult.fail("noLogin");
+        }else {
+            int uid = user.getUid();
+            int currentPage = Integer.parseInt(request.getParameter("currentPage"));
+            return favoriteService.findMyFavoriteRouteByPage(currentPage,uid);
+        }
+    }
 }

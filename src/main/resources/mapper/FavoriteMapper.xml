@@ -16,6 +16,19 @@
     where rid = #{rid,jdbcType=INTEGER}
       and uid = #{uid,jdbcType=INTEGER}
   </select>
+  <select id="findFavoriteByUid" resultType="java.lang.Integer">
+    select
+    count(*)
+    from favorite
+    where uid = #{uid,jdbcType=INTEGER}
+  </select>
+  <select id="findMyFavoriteRouteByPage" resultType="com.szxy.spdb.po.Route">
+    select
+     b.*
+     from favorite a,route b
+     where a.rid = b.rid and a.uid = #{uid,jdbcType=INTEGER}
+     limit #{start,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" >
     delete from favorite
     where rid = #{rid,jdbcType=INTEGER}

@@ -1,9 +1,6 @@
 package com.szxy.spdb.dao;
 
-import com.szxy.spdb.po.Brand;
 import com.szxy.spdb.po.User;
-
-import java.util.List;
 
 public interface IUserDao {
     int deleteByPrimaryKey(Integer uid);

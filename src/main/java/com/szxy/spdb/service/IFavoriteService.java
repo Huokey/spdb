@@ -7,4 +7,6 @@ public interface IFavoriteService {
     WebResult findFavoriteByRid(int rid, int uid);
 
     WebResult addFavoriteByRid(int uid, int rid);
+
+    WebResult findMyFavoriteRouteByPage(int currentPage, int uid);
 }

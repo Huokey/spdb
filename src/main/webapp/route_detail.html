@@ -52,14 +52,17 @@
             <div class="pros_price">
                 <p class="price"><strong id="price"></strong><span>起</span></p>
                 <p class="collect" id="favorite">
-
-
+                </p>
+                <p class="collect">
+                    <a id='favoriteBtn' class="btn" data-toggle="modal" data-target="#exampleModal">
+                        <i class="glyphicon glyphicon-heart-empty"></i>立即购买
+                    </a>
                 </p>
             </div>
         </div>
     </div>
     <div class="you_need_konw">
-        <span>旅游须知</span>
+        <span>购买须知</span>
         <div class="notice">
             <p>1、地板我们都是委托物流公司运输到您当地物流点，您需要上门自提。 <br>
 
@@ -76,6 +79,60 @@
 
             <p>5、到货后您可以让当地物流点送货到您家楼下(不包含上楼)，送货费与物流公司协商，送货费需要您自付。</p>
             <p>6、在全国各地已经建立安装合作点，您可以选择我们推荐的安装上门为您服务，您需要单独支付安装费用，也可以选择自己找师傅安装(因各地行情不同，价格略有浮动)。<br>
+        </div>
+    </div>
+    <!--模态框-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">购买信息</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label">收件人:</label>
+                            <input type="text" class="form-control" id="recipient-name">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label">联系电话:</label>
+                            <input type="text" class="form-control" id="recipient-telephone">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label">所需面积(m²):</label>
+                            <input type="text" class="form-control" id="recipient-count">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">收货地址:</label>
+                            <textarea class="form-control" id="message-text"></textarea>
+                        </div>
+                        <div class="form-group" id="totalPrice">
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#zhifubao">支付宝支付</button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#weixin">微信支付</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--支付模态框-->
+    <div class="modal fade bs-example-modal-sm" id="zhifubao" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <img src="images/zhifubao.png" alt="">
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-sm" id="weixin" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <img src="images/weixin.jpg" alt="">
+            </div>
         </div>
     </div>
 </div>
@@ -106,14 +163,14 @@
                 //增加收藏次数
 
                 if (res.message == "alreadyFavorite") {
-                    var $btn = $("<a  class=\"btn already\" disabled=\"disabled\"><i class=\"glyphicon glyphicon-heart-empty\"></i>点击收藏</a>");
+                    var $btn = $("<a  class=\"btn already\" disabled=\"disabled\"><i class=\"glyphicon glyphicon-shopping-cart\"></i>加入购物车</a>");
                     $("#favorite").append($btn);
                 } else {
-                    var $btn = $("<a id='favoriteBtn' class=\"btn\" onclick='addFavorite()'><i class=\"glyphicon glyphicon-heart-empty\"></i>点击收藏</a>");
+                    var $btn = $("<a id='favoriteBtn' class=\"btn\" onclick='addFavorite()'><i class=\"glyphicon glyphicon-shopping-cart\"></i>加入购物车</a>");
                     $("#favorite").append($btn);
                 }
                 //增加收藏次数
-                var $span = $("<span id='favoriteSpan'>已收藏" + res.value + "次</span>")
+                var $span = $("<span id='favoriteSpan'>已加入" + res.value + "次</span>")
                 $("#favorite").append($span);
             }
         });
@@ -175,7 +232,18 @@
                 $("#sellerPhone").html("咨询电话 : " + (res.value).seller.telephone);
                 $("#sellerAddress").html("地址 ： " + (res.value).seller.address);
                 //价格
-                $("#price").html("￥" + (res.value).price)
+                $("#price").html("￥" + (res.value).price);
+                //总价格
+                var count = document.getElementById('recipient-count');
+                if('oninput' in count){
+                    count.addEventListener("input",getWord,false);
+                }else{
+                    count.onpropertychange = getWord;
+                }
+                function getWord(){
+                    var totalPrice = (res.value).price * count.value;
+                    $("#totalPrice").html("总价格：￥" + totalPrice);
+                }
             }
         });
     })
@@ -260,6 +328,7 @@
             $('.big_img').attr('src', big_pic);
         }
     }
+
 </script>
 </body>
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>黑马旅游网-我的收藏</title>
+    <title>尚品地板网-我的购物车</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/common.css">
     <link rel="stylesheet" href="css/index.css">
@@ -25,7 +25,7 @@
                 currentPage = 1;
             }
             $.ajax({
-                url: "favoriteServlet?methodName=findMyFavoriteRouteByPage",
+                url: "favorite/findMyFavoriteRouteByPage",
                 data: {"currentPage": currentPage},
                 dataType: "json",
                 success: function (res) {
@@ -47,20 +47,20 @@
                         window.location.href = "login.html";
                     } else {
                         $("#favoriteRoute").empty();
-                        for (var i = 0; i < res.routeList.length; i++) {
+                        for (var i = 0; i < (res.value).routeList.length; i++) {
                             var $div = $("<div class=\"col-md-3\">\n" +
-                                "                                    <a href=\"route_detail.html\">\n" +
-                                "                                        <img src=\"" + res.routeList[i].rimage + "\" alt=\"\">\n" +
+                                "                                    <a href=\"route_detail.html?rid="+(res.value).routeList[i].rid+"\">\n" +
+                                "                                        <img src=\"" + (res.value).routeList[i].rimage + "\" alt=\"\">\n" +
                                 "                                        <div class=\"has_border\">\n" +
-                                "                                            <h3>" + res.routeList[i].rname + "</h3>\n" +
-                                "                                            <div class=\"price\">网付价<em>￥</em><strong>" + res.routeList[i].price + "</strong><em>起</em></div>\n" +
+                                "                                            <h3>" + (res.value).routeList[i].rname + "</h3>\n" +
+                                "                                            <div class=\"price\">网付价<em>￥</em><strong>" + (res.value).routeList[i].price + "</strong><em>起</em></div>\n" +
                                 "                                        </div>\n" +
                                 "                                    </a>\n" +
                                 "                                </div>")
                             $("#favoriteRoute").append($div);
                         }
                         $("#pageTool").empty();
-                        if (res.currentPage == 1) {
+                        if ((res.value).currentPage == 1) {
                             //首页
                             var $firstPage = $("<li><a disabled='disabled' style=\"opacity: 0.2\">首页</a></li>");
                             $("#pageTool").append($firstPage);
@@ -70,26 +70,26 @@
                         } else {
                             var $firstPage = $("<li><a href=\"myfavorite.html?currentPage=1\">首页</a></li>");
                             $("#pageTool").append($firstPage);
-                            var $prePage = $("<li class=\"threeword\"><a href=\"myfavorite.html?currentPage=" + res.prePage + "\">上一页</a></li>")
+                            var $prePage = $("<li class=\"threeword\"><a href=\"myfavorite.html?currentPage=" + (res.value).prePage + "\">上一页</a></li>")
                             $("#pageTool").append($prePage);
                         }
                         //页码
                         var begin = 1;
-                        var end = res.totalPage;
+                        var end = (res.value).totalPage;
                         if (end > 10) {
-                            begin = res.currentPage - 5;
-                            end = res.currentPage + 4;
+                            begin = (res.value).currentPage - 5;
+                            end = (res.value).currentPage + 4;
                             if (begin < 1) {
                                 begin = 1;
                                 end = 10;
                             }
-                            if (end > res.totalPage) {
+                            if (end > (res.value).totalPage) {
                             }
-                            begin = res.totalPage - 9;
-                            end = res.totalPage;
+                            begin = (res.value).totalPage - 9;
+                            end = (res.value).totalPage;
                         }
                         for (var i = begin; i <= end; i++) {
-                            if (res.currentPage == i){
+                            if ((res.value).currentPage == i){
                                 var $currentPage = $("<li><a disabled='disabled' style=\"opacity: 0.2\">" + i + "</a></li>")
                             }else {
                                 var $currentPage = $("<li><a href=\"myfavorite.html?currentPage="+i+"\">" + i + "</a></li>")
@@ -97,7 +97,7 @@
                             $("#pageTool").append($currentPage);
                         }
 
-                        if (res.currentPage == res.totalPage) {
+                        if ((res.value).currentPage == (res.value).totalPage) {
                             //下一页
                             var $nextPage = $("<li class=\"threeword\"><a disabled='disabled' style=\"opacity: 0.2\">下一页</a></li>")
                             $("#pageTool").append($nextPage);
@@ -105,9 +105,9 @@
                             var $lastPage = $("<li><a disabled='disabled' style=\"opacity: 0.2\">末页</a></li>");
                             $("#pageTool").append($lastPage);
                         } else {
-                            var $nextPage = $("<li class=\"threeword\"><a href=\"myfavorite.html?currentPage=" + res.nextPage + "\">下一页</a></li>")
+                            var $nextPage = $("<li class=\"threeword\"><a href=\"myfavorite.html?currentPage=" + (res.value).nextPage + "\">下一页</a></li>")
                             $("#pageTool").append($nextPage);
-                            var $lastPage = $("<li><a href=\"myfavorite.html?currentPage="+res.totalPage
+                            var $lastPage = $("<li><a href=\"myfavorite.html?currentPage="+(res.value).totalPage
                                 +"\">末页</a></li>");
                             $("#pageTool").append($lastPage);
                         }
@@ -127,7 +127,7 @@
         <div class="jx_top">
             <div class="jx_tit">
                 <img src="images/icon_5.jpg" alt="">
-                <span>我的收藏</span>
+                <span>我的购物车</span>
             </div>
         </div>
         <div class="jx_content">

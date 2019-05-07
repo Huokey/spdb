@@ -31,9 +31,9 @@
 <!-- 首页导航 -->
 <div class="navitem">
     <ul class="nav">
-        <li class="nav-active"><a href="index.html" >首页</a></li>
+        <li id="index" class="nav-active"><a href="index.html" >首页</a></li>
 
-        <li id="categories"><a href="favoriterank.html">收藏排行榜</a></li>
+        <li id="categories"><a href="myfavorite.html">我的购物车</a></li>
     </ul>
 </div>
 <script>
@@ -51,7 +51,7 @@
                 } else {
                     $("#loginState").html("<div class=\"login\">\n" +
                         "<span>" + "欢迎回来," + res.message + "</span>\n" +
-                        "<a href=\"myfavorite.html\" class=\"collection\">我的收藏</a>\n" +
+                        "<a href=\"myfavorite.html\" class=\"collection\">购物车</a>\n" +
                         "<a onclick='loginOut()' href=\"javascript:;\">退出</a>\n" +
                         "</div>")
                 }
@@ -69,7 +69,7 @@
                  */
                 for (var i = 0; i < (res.value).length; i++) {
                     var $li = "<li><a href=\"route_list.html?cid="+(res.value)[i].bid+"\">"+ (res.value)[i].bname +"</a></li>";
-                    $("#categories").before($li);
+                    $("#index").after($li);
                 }
             }
         })

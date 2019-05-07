@@ -1,10 +1,13 @@
 package com.szxy.spdb.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.szxy.spdb.dao.IFavoriteDao;
 import com.szxy.spdb.dao.IRouteDao;
 import com.szxy.spdb.po.Favorite;
+import com.szxy.spdb.po.Route;
 import com.szxy.spdb.po.WebResult;
 import com.szxy.spdb.service.IFavoriteService;
+import com.szxy.spdb.utils.PageBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class FavoriteService implements IFavoriteService {
@@ -49,5 +53,30 @@ public class FavoriteService implements IFavoriteService {
         //3.重新查询count
         int count = routeDao.findRouteCountByRid(rid);
         return WebResult.success("success", count);
+    }
+
+    @Override
+    public WebResult findMyFavoriteRouteByPage(int currentPage, int uid) {
+        PageBean pageBean = new PageBean();
+        //当前页
+        pageBean.setCurrentPage(currentPage);
+        //上一页
+        pageBean.setPrePage(currentPage-1);
+        //下一页
+        pageBean.setNextPage(currentPage+1);
+        //每页显示数量
+        int pageSize = 8;
+        pageBean.setPageSize(pageSize);
+        //总收藏数
+        int totalCount = favoriteDao.findFavoriteByUid(uid);
+        pageBean.setTotalCount(totalCount);
+        //总页数
+        int totalPage = (int)Math.ceil(totalCount*1.0/pageSize);
+        pageBean.setTotalPage(totalPage);
+        //线路列表
+        int start = (currentPage-1)*pageSize;
+        List<Route> list = favoriteDao.findMyFavoriteRouteByPage(uid,start,pageSize);
+        pageBean.setRouteList(list);
+        return WebResult.success("查询数据成功",pageBean);
     }
 }
