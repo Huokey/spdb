@@ -17,13 +17,15 @@ public class UserService implements IUserService {
     private IUserDao userDao;
 
     @Override
-    public WebResult register(User user) {
+    public WebResult register(User user, String check) {
         if (StringUtils.isEmpty(user.getTelephone())) {
             return WebResult.fail("手机号不能为空");
         } else if (StringUtils.isEmpty(user.getPassword())) {
             return WebResult.fail("密码不能为空");
         } else if (StringUtils.isEmpty(user.getUsername())) {
             return WebResult.fail("用户名不能为空");
+        } else if (!check.toUpperCase().equals("JGMXJ")) {
+            return WebResult.fail("验证码错误");
         } else {
             User phone = userDao.selectByPhone(user.getTelephone());
             User username = userDao.selectByUsername(user.getUsername());

@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface IUserService {
 
-    WebResult register(User user);
+    WebResult register(User user, String check);
 
     WebResult validatePhone(String telephone);
 

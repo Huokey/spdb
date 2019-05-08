@@ -33,8 +33,8 @@ public class UserController {
 
     //注册
     @RequestMapping(value = "/register",method = RequestMethod.POST)
-    public WebResult register(User user,String code) {
-        WebResult result = userService.register(user);
+    public WebResult register(User user,String check) {
+        WebResult result = userService.register(user,check);
         return result;
     }
 
